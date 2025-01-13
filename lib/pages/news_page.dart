@@ -11,16 +11,22 @@ class NewsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Noticias de Animales'),
+        title: const Text('Noticias'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () {
+              context.read<NewsBloc>().add(LoadNewsEvent());
+            },
+          ),
+        ],
       ),
-      body: BlocProvider(
-        create: (context) => NewsBloc()..add(LoadNewsEvent()),
-        child: Column(
-          children: [
-            CardSlider(),
-            CardSliderFavorite(),
-          ],
-        ),
+      body: Column(
+        children: [
+          CardSlider(),
+          const SizedBox(height: 30),
+          CardSliderFavorite(),
+        ],
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:blocExample/models/noticias.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
@@ -27,14 +28,18 @@ class NewsError extends NewsState {
 // Bloc
 class NewsBloc extends Bloc<NewsEvent, NewsState> {
   List<Article> favoriteArticles = []; // Lista de favoritos
+  List<String> themes = ['animal', 'technology', 'science', 'health', 'sports', 'business', 'entertainment'];
 
   NewsBloc() : super(NewsLoading()) {
     on<LoadNewsEvent>((event, emit) async {
       emit(NewsLoading());
       try {
-        final response = await http.get(Uri.parse(
-          'https://newsapi.org/v2/everything?q=animal&language=es&apiKey=c0c93013cb7246ba82c55ca1626fbc3e',
-        ));
+        var url = Uri.https('newsapi.org', '/v2/everything', {
+          'apikey': 'c3f97b933435462b89732274a1c6bcca',
+          'q': themes[Random().nextInt(themes.length)],
+          'language': 'es',
+        });
+        final response = await http.get(url);
         if (response.statusCode == 200) {
           final noticias = Noticias.fromJson(response.body);
           emit(NewsLoaded(noticias.articles));
@@ -48,8 +53,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
   }
 }
 
-
-//Eventos
+// Eventos de favoritos
 abstract class FavoritesEvent {}
 
 class AddFavoriteEvent extends FavoritesEvent {
@@ -64,7 +68,7 @@ class RemoveFavoriteEvent extends FavoritesEvent {
   RemoveFavoriteEvent(this.article);
 }
 
-//Estados
+// Estados de favoritos
 abstract class FavoritesState {}
 
 class FavoritesLoaded extends FavoritesState {
@@ -79,8 +83,7 @@ class FavoritesError extends FavoritesState {
   FavoritesError(this.message);
 }
 
-
-
+// Bloc de favoritos
 class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
   List<Article> favoriteArticles = []; // Lista de favoritos
 

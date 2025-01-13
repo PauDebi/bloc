@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Noticias de Animales',
+        title: 'Noticias',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),

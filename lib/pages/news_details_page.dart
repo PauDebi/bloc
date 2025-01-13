@@ -20,17 +20,21 @@ class NewsDetailsPage extends StatelessWidget {
           },
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.favorite),
-            onPressed: () {
-              try {
-                final bloc = BlocProvider.of<FavoritesBloc>(context);
-                bloc.add(AddFavoriteEvent(article)); // Agregar a favoritos
-              } catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Error: NewsBloc not found')),
-                );
-              }
+          BlocBuilder<FavoritesBloc, FavoritesState>(
+            builder: (context, state) {
+              state = state as FavoritesLoaded;
+              final isFavorite = state.favoriteArticles.contains(article);
+              return IconButton(
+                icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
+                onPressed: () {
+                  final bloc = BlocProvider.of<FavoritesBloc>(context);
+                  if (isFavorite) {
+                    bloc.add(RemoveFavoriteEvent(article)); // Quitar de favoritos
+                  } else {
+                    bloc.add(AddFavoriteEvent(article)); // Agregar a favoritos
+                  }
+                },
+              );
             },
           ),
         ],

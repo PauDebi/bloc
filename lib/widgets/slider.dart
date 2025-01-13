@@ -11,11 +11,11 @@ class CardSlider extends StatelessWidget {
     return BlocBuilder<NewsBloc, NewsState>(
       builder: (context, state) {
         if (state is NewsLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator(), heightFactor: 10.55);
         } else if (state is NewsLoaded) {
           return Center(
             child: SizedBox(
-              height: 400, // Altura del slider
+              height: 380, // Altura del slider
               child: PageView.builder(
                 itemCount: state.articles.length,
                 controller: PageController(viewportFraction: 0.85),
