@@ -1,15 +1,19 @@
-name: bloc
-description: "A new Flutter project."
+name: blocExample
+description: "News App"
 publish_to: 'none'
-version: 0.1.0
+version: 1.0.0
 
 environment:
-  sdk: ^3.5.4
+  sdk: ^3.6.0
 
 dependencies:
   card_swiper: ^3.0.1
+  http: ^1.2.2
+  flutter_bloc: ^8.1.6
   flutter:
     sdk: flutter
+  provider: ^6.1.2
+  
 
 dev_dependencies:
   flutter_lints: ^5.0.0
